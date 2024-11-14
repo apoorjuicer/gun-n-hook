@@ -1,60 +1,29 @@
 #include "stdio.h"
 #include "mainmenu.h"
 #include "cprocessing.h"
+#include "utils.h"
+#include "leveltwo.h"
 
-//initialize all platform structs
-typedef struct platform {
 
-	double x;
-	double y;
-	double width;
-	double height;
-	CP_Color platform_color;
-
-} platform;
-
-//initialize all goal structs
-typedef struct goal {
-
-	double x;
-	double y;
-	double width;
-	double height;
-	double degrees;
-	double corner_radius;
-	CP_Color goal_color;
-
-}goal;
-
-void draw_platform(platform platform) {
-	//draw platforms
-	CP_Settings_RectMode(CP_POSITION_CENTER);
-	CP_Settings_Fill(platform.platform_color);
-	CP_Settings_NoStroke();
-	CP_Graphics_DrawRect(platform.x, platform.y, platform.width, platform.height);
-
-}
-
-void draw_goal(goal goal) {
-	//draw goals
-	goal.goal_color = CP_Color_Create(0, 0, 0, 255);
-	CP_Settings_Fill(goal.goal_color);
-	CP_Graphics_DrawRectAdvanced(goal.x, goal.y, goal.width, goal.height, goal.degrees, goal.corner_radius);
-}
 
 
 platform platform_base, platform1, platform2, platform_goal;
 goal goal_start, goal_end;
+healthbar player_health, player_health_background;
 
 
 
 void Levelone_Init(void)
 {
+	//game window size is (1600, 900)
 	//set all platform color as the same(dark red)
 	platform_base.platform_color = CP_Color_Create(255, 128, 128, 255);
 	platform1.platform_color = CP_Color_Create(255, 128, 128, 255);
 	platform2.platform_color = CP_Color_Create(255, 128, 128, 255);
 	platform_goal.platform_color = CP_Color_Create(255, 128, 128, 255);
+	//set healthbar color 
+	player_health.rect_color = CP_Color_Create(255, 0, 0, 255);
+	player_health_background.rect_color = CP_Color_Create(255, 0, 0, 100);
 	//platform_base is the ground 
 	platform_base.x = CP_System_GetWindowWidth()/2;
 	platform_base.y = 800.00;
@@ -91,6 +60,16 @@ void Levelone_Init(void)
 	goal_end.width = 40.00;
 	goal_end.height = 70.00;
 	goal_end.corner_radius = 10;
+	//player healthbar at top of map (will be rendered over everything else)
+	player_health.x = 200.00;
+	player_health.y = 50.00;
+	player_health.width = 300.00;
+	player_health.height = 20.00;
+	//background of player healthbar
+	player_health_background.x = 200.00;
+	player_health_background.y = 50.00;
+	player_health_background.width = 300.00;
+	player_health_background.height = 20.00;
 }
 
 
@@ -106,10 +85,18 @@ void Levelone_Update(void)
 	draw_platform(platform1);
 	draw_platform(platform2);
 	draw_platform(platform_goal);
+	//draw healthbar (with background)
+	draw_healthbar(player_health_background);
+	draw_healthbar(player_health);
 	
 	if (CP_Input_KeyTriggered(KEY_Q))
 	{
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit); // exit using Q
+	}
+	//test for next level (this will be for goal function)
+	if (CP_Input_KeyTriggered(KEY_N))
+	{
+		CP_Engine_SetNextGameState(Leveltwo_Init, Leveltwo_Update, Leveltwo_Exit); // next level using N
 	}
 
 }
