@@ -4,6 +4,8 @@ A 2D platformer with a grappling hook and guns: three levels and a boss
 fight. 5-person team, 1 trimester (Fall 2024), DigiPen Institute of
 Technology Singapore.
 
+![Gun N Hook gameplay](gun-n-hook.gif)
+
 ## My part (enemy programmer)
 - **Enemy system**: created the enemy module (enemy.c/h) with melee and
   ranged enemies, including facing direction and ranged attacks.
