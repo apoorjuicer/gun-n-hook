@@ -20,7 +20,7 @@ C, Visual Studio
 ## Team
 - Stanley Lur
 - Guan Shaojun
-- Chiew Teng Kwan
+- Chewn Thing Kwan
 - Muhammad Amzar
 - Benjamin Ban
 
